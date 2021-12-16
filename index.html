@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/7854e7e538.js" crossorigin="anonymous"></script>
+
+    <style>
+        h1{
+            text-align: center;
+        }
+        button, #codes{
+            margin: 0 auto;
+            display: block;
+        }
+        /* center codes div */
+        #codes{
+            margin: 20px auto;
+            display: block;
+            width: 50%;
+        }
+    </style>
+ 
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <h1>PSN Gift-Card Generator</h1>
+
+        <div class="content">
+            <button id="generate" onclick="append_codes()">Gérar Códigos</button>
+            <br>
+            <button id="copy" style="display: none;" onclick="copyDivToClipboard()">Copiar códigos</button>
+
+            <div id="codes" style="text-align: center;"></div>
+        </div>
+    </div>
+
+    <script>
+
+        function generate_code(){
+            var pwdChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            var pwdLen = 4;
+            var arr = []
+            for (i = 0; i < 3; i++) {
+                var randPassword = Array(pwdLen).fill(pwdChars).map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+                arr.push(randPassword.toUpperCase())
+            }
+
+            return arr.join('-')
+            
+        }
+
+        // copy the content from codes to clipboard
+        function copyDivToClipboard() {
+            var range = document.createRange();
+            range.selectNode(document.getElementById("codes"));
+            window.getSelection().removeAllRanges(); // clear current selection
+            window.getSelection().addRange(range); // to select text
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();// to deselect
+        }
+
+        function append_codes(){
+            $('#copy').show();
+            for (a = 0; a < 100; a++) {
+                var code = generate_code()
+                console.log(code)
+                $('#codes').append(code + '<br>')
+            }
+        }
+    </script>
+</body>
+</html>
